@@ -1,0 +1,16 @@
+{
+  "name": "parity",
+  "version": "0.0.1",
+  "description": "Keeps directories in sync, smartly(someday hopefully)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Skyler Hamilton <ore@skylerhamilton.info>",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "fs-extra": "^10.0.0",
+    "klaw": "^3.0.0"
+  }
+}
