@@ -18,6 +18,12 @@ const path = require('node:path')
     }
     cant do object naming since duplication is very likely
     idgaf atm
+  - this setup would not support documents well since it would be something like
+    _managed/documents/tech/software/C/<book folder name>/book_name.pdf
+    _managed/documents/tech/software/C/<book folder name>/book_name.epub
+    _managed/documents/tech/software/C/<book folder name>/extras.zip
+    so support this kind of structure ding bat
+
 */
 
 const validDirs = ['a','b','e','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']

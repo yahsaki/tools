@@ -1,0 +1,6 @@
+node_modules
+parity/output.json
+parity/state.json
+parity/*.zip
+parity/test_source/*
+parity/test_target/*
