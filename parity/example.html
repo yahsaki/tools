@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <style>
+      html {
+        background-color: black;
+        background: white;
+      }
+      .table {
+        border: 1px solid black;
+      }
+      .row-wrapper {
+        
+      }
+      .row {
+      
+      }
+      #row-0 {
+        
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div class="table">
+        <div class="row-wrapper">
+          <div class="row" id="row-0" data-type="file">
+            <div class="item" id="row-0-item-0">
+              object.extension
+            </div>
+            <div class="item" id="row-0-item-1">
+              object.extension
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    /*
+      colors
+        - red: missing
+        - yellow: item or something inside folder updated
+        
+        I guess we never need green lol
+        
+      - each row corresponds to an item that exists in one of the sections. obviously a row would
+        not exist if no sections contain an item there 
+    */
+      const data = {
+        blobs: [
+          {
+            name: "",
+          }
+        ]
+      }
+    </script>
+  </body>
+</html>

@@ -1,9 +1,9 @@
-const p = require('process')
-const readline = require('readline')
-const fs = require('fs')
-const klaw = require('klaw')
-const path = require('path')
-const chalk = require('chalk')
+const p = require('node:process')
+const readline = require('node:readline')
+const fs = require('node:fs')
+//const klaw = require('klaw')
+//const path = require('path')
+//const chalk = require('chalk')
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -16,6 +16,11 @@ const api = {
     readline.clearLine(process.stdout, 0)
     readline.cursorTo(process.stdout, 0)
     process.stdout.write(message)
+  },
+  isFileIgnorable: (name) => {
+    if (!name.length) return true
+    const ignoredExtensions = ['.ini']
+    return false
   },
   convertBytesToHumanReadable: (bytes) => {
     if (bytes > 1024*1024*1024*1024) {

@@ -1,0 +1,310 @@
+{
+  "baseDir": "C:\\Users\\admin\\projects\\tools\\parity\\test_data\\map\\source_a",
+  "os": "win32",
+  "createDate": "2024-09-22T04:52:33.985Z",
+  "files": [
+    {
+      "id": "2a0ac0c0-8a50-4391-b89a-76d88ca3a63e",
+      "pathArr": [
+        "publisher_0",
+        "content_0",
+        "file_0.txt"
+      ],
+      "parentId": "d0abe925-332c-4a5c-a031-a59be76a70cc"
+    },
+    {
+      "id": "42325f19-2e11-462b-a01a-85abc035b15a",
+      "pathArr": [
+        "publisher_0",
+        "content_0",
+        "file_1.txt"
+      ],
+      "parentId": "d0abe925-332c-4a5c-a031-a59be76a70cc"
+    },
+    {
+      "id": "1c1833d1-41e6-468a-9cbc-a0a321b35c7a",
+      "pathArr": [
+        "publisher_1",
+        "content_0",
+        "file_0.txt"
+      ],
+      "parentId": "498de5c5-7351-4526-9e70-de34046188f0"
+    },
+    {
+      "id": "233508a3-0b5d-4251-bb8b-e66a54caea84",
+      "pathArr": [
+        "publisher_1",
+        "content_1",
+        "file_0.txt"
+      ],
+      "parentId": "d3526b0c-0504-4d70-87e7-3939ba845bc5"
+    },
+    {
+      "id": "b69d2215-b26a-433e-8c59-5023ef1c2f32",
+      "pathArr": [
+        "publisher_2",
+        "content_0",
+        "file_0.txt"
+      ],
+      "parentId": "106125c5-cbca-437f-a33c-72232ba862f7"
+    }
+  ],
+  "folders": [
+    {
+      "id": "5b6f838e-6b85-4b7f-9a04-f9912c5bfdcb",
+      "type": "folder",
+      "pathArr": [
+        "publisher_0"
+      ],
+      "created": "2024-09-22T04:39:26.754Z",
+      "children": [
+        {
+          "id": "d0abe925-332c-4a5c-a031-a59be76a70cc",
+          "type": "folder",
+          "pathArr": [
+            "publisher_0",
+            "content_0"
+          ],
+          "created": "2024-09-22T04:40:13.021Z",
+          "children": [
+            {
+              "id": "2a0ac0c0-8a50-4391-b89a-76d88ca3a63e",
+              "pathArr": [
+                "publisher_0",
+                "content_0",
+                "file_0.txt"
+              ],
+              "parentId": "d0abe925-332c-4a5c-a031-a59be76a70cc"
+            },
+            {
+              "id": "42325f19-2e11-462b-a01a-85abc035b15a",
+              "pathArr": [
+                "publisher_0",
+                "content_0",
+                "file_1.txt"
+              ],
+              "parentId": "d0abe925-332c-4a5c-a031-a59be76a70cc"
+            }
+          ],
+          "parentId": "5b6f838e-6b85-4b7f-9a04-f9912c5bfdcb"
+        }
+      ]
+    },
+    {
+      "id": "133a2106-1425-4a02-970f-b0ce7b49c590",
+      "type": "folder",
+      "pathArr": [
+        "publisher_1"
+      ],
+      "created": "2024-09-22T04:47:40.780Z",
+      "children": [
+        {
+          "id": "498de5c5-7351-4526-9e70-de34046188f0",
+          "type": "folder",
+          "pathArr": [
+            "publisher_1",
+            "content_0"
+          ],
+          "created": "2024-09-22T04:48:55.798Z",
+          "children": [
+            {
+              "id": "1c1833d1-41e6-468a-9cbc-a0a321b35c7a",
+              "pathArr": [
+                "publisher_1",
+                "content_0",
+                "file_0.txt"
+              ],
+              "parentId": "498de5c5-7351-4526-9e70-de34046188f0"
+            }
+          ],
+          "parentId": "133a2106-1425-4a02-970f-b0ce7b49c590"
+        },
+        {
+          "id": "d3526b0c-0504-4d70-87e7-3939ba845bc5",
+          "type": "folder",
+          "pathArr": [
+            "publisher_1",
+            "content_1"
+          ],
+          "created": "2024-09-22T04:49:01.990Z",
+          "children": [
+            {
+              "id": "233508a3-0b5d-4251-bb8b-e66a54caea84",
+              "pathArr": [
+                "publisher_1",
+                "content_1",
+                "file_0.txt"
+              ],
+              "parentId": "d3526b0c-0504-4d70-87e7-3939ba845bc5"
+            }
+          ],
+          "parentId": "133a2106-1425-4a02-970f-b0ce7b49c590"
+        }
+      ]
+    },
+    {
+      "id": "113dffff-ca94-4f5d-947b-e600640d1bbb",
+      "type": "folder",
+      "pathArr": [
+        "publisher_2"
+      ],
+      "created": "2024-09-22T04:50:07.132Z",
+      "children": [
+        {
+          "id": "106125c5-cbca-437f-a33c-72232ba862f7",
+          "type": "folder",
+          "pathArr": [
+            "publisher_2",
+            "content_0"
+          ],
+          "created": "2024-09-22T04:50:14.753Z",
+          "children": [
+            {
+              "id": "b69d2215-b26a-433e-8c59-5023ef1c2f32",
+              "pathArr": [
+                "publisher_2",
+                "content_0",
+                "file_0.txt"
+              ],
+              "parentId": "106125c5-cbca-437f-a33c-72232ba862f7"
+            }
+          ],
+          "parentId": "113dffff-ca94-4f5d-947b-e600640d1bbb"
+        }
+      ]
+    },
+    {
+      "id": "d0abe925-332c-4a5c-a031-a59be76a70cc",
+      "type": "folder",
+      "pathArr": [
+        "publisher_0",
+        "content_0"
+      ],
+      "created": "2024-09-22T04:40:13.021Z",
+      "children": [
+        {
+          "id": "2a0ac0c0-8a50-4391-b89a-76d88ca3a63e",
+          "pathArr": [
+            "publisher_0",
+            "content_0",
+            "file_0.txt"
+          ],
+          "parentId": "d0abe925-332c-4a5c-a031-a59be76a70cc"
+        },
+        {
+          "id": "42325f19-2e11-462b-a01a-85abc035b15a",
+          "pathArr": [
+            "publisher_0",
+            "content_0",
+            "file_1.txt"
+          ],
+          "parentId": "d0abe925-332c-4a5c-a031-a59be76a70cc"
+        }
+      ],
+      "parentId": "5b6f838e-6b85-4b7f-9a04-f9912c5bfdcb"
+    },
+    {
+      "id": "498de5c5-7351-4526-9e70-de34046188f0",
+      "type": "folder",
+      "pathArr": [
+        "publisher_1",
+        "content_0"
+      ],
+      "created": "2024-09-22T04:48:55.798Z",
+      "children": [
+        {
+          "id": "1c1833d1-41e6-468a-9cbc-a0a321b35c7a",
+          "pathArr": [
+            "publisher_1",
+            "content_0",
+            "file_0.txt"
+          ],
+          "parentId": "498de5c5-7351-4526-9e70-de34046188f0"
+        }
+      ],
+      "parentId": "133a2106-1425-4a02-970f-b0ce7b49c590"
+    },
+    {
+      "id": "d3526b0c-0504-4d70-87e7-3939ba845bc5",
+      "type": "folder",
+      "pathArr": [
+        "publisher_1",
+        "content_1"
+      ],
+      "created": "2024-09-22T04:49:01.990Z",
+      "children": [
+        {
+          "id": "233508a3-0b5d-4251-bb8b-e66a54caea84",
+          "pathArr": [
+            "publisher_1",
+            "content_1",
+            "file_0.txt"
+          ],
+          "parentId": "d3526b0c-0504-4d70-87e7-3939ba845bc5"
+        }
+      ],
+      "parentId": "133a2106-1425-4a02-970f-b0ce7b49c590"
+    },
+    {
+      "id": "106125c5-cbca-437f-a33c-72232ba862f7",
+      "type": "folder",
+      "pathArr": [
+        "publisher_2",
+        "content_0"
+      ],
+      "created": "2024-09-22T04:50:14.753Z",
+      "children": [
+        {
+          "id": "b69d2215-b26a-433e-8c59-5023ef1c2f32",
+          "pathArr": [
+            "publisher_2",
+            "content_0",
+            "file_0.txt"
+          ],
+          "parentId": "106125c5-cbca-437f-a33c-72232ba862f7"
+        }
+      ],
+      "parentId": "113dffff-ca94-4f5d-947b-e600640d1bbb"
+    }
+  ],
+  "fileMap": {
+    "publisher_0~~content_0~~file_0.txt": {
+      "id": "2a0ac0c0-8a50-4391-b89a-76d88ca3a63e"
+    },
+    "publisher_0~~content_0~~file_1.txt": {
+      "id": "42325f19-2e11-462b-a01a-85abc035b15a"
+    },
+    "publisher_1~~content_0~~file_0.txt": {
+      "id": "1c1833d1-41e6-468a-9cbc-a0a321b35c7a"
+    },
+    "publisher_1~~content_1~~file_0.txt": {
+      "id": "233508a3-0b5d-4251-bb8b-e66a54caea84"
+    },
+    "publisher_2~~content_0~~file_0.txt": {
+      "id": "b69d2215-b26a-433e-8c59-5023ef1c2f32"
+    }
+  },
+  "folderMap": {
+    "publisher_0": {
+      "id": "5b6f838e-6b85-4b7f-9a04-f9912c5bfdcb"
+    },
+    "publisher_1": {
+      "id": "133a2106-1425-4a02-970f-b0ce7b49c590"
+    },
+    "publisher_2": {
+      "id": "113dffff-ca94-4f5d-947b-e600640d1bbb"
+    },
+    "publisher_0~~content_0": {
+      "id": "d0abe925-332c-4a5c-a031-a59be76a70cc"
+    },
+    "publisher_1~~content_0": {
+      "id": "498de5c5-7351-4526-9e70-de34046188f0"
+    },
+    "publisher_1~~content_1": {
+      "id": "d3526b0c-0504-4d70-87e7-3939ba845bc5"
+    },
+    "publisher_2~~content_0": {
+      "id": "106125c5-cbca-437f-a33c-72232ba862f7"
+    }
+  }
+}

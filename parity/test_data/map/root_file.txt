@@ -1,0 +1,3 @@
+publisher 0 should match completely
+publisher 1 has a new folder in source a
+publisher 2 has an addition file in source b

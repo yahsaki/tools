@@ -1,0 +1,283 @@
+{
+  "baseDir": "C:\\Users\\admin\\projects\\tools\\parity\\test_data\\map\\source_b",
+  "os": "win32",
+  "createDate": "2024-09-22T04:52:43.932Z",
+  "files": [
+    {
+      "id": "f014d252-207d-4068-92d7-96489a429f0c",
+      "pathArr": [
+        "publisher_0",
+        "content_0",
+        "file_0.txt"
+      ],
+      "parentId": "694d31ec-ba2d-4d6c-8cb4-019b5277cb97"
+    },
+    {
+      "id": "db1693d3-f0d6-4edf-b633-7ec795a24b3a",
+      "pathArr": [
+        "publisher_0",
+        "content_0",
+        "file_1.txt"
+      ],
+      "parentId": "694d31ec-ba2d-4d6c-8cb4-019b5277cb97"
+    },
+    {
+      "id": "10e872d0-d074-4c87-b591-371e886c5c8d",
+      "pathArr": [
+        "publisher_1",
+        "content_0",
+        "file_0.txt"
+      ],
+      "parentId": "ee10c597-bc72-40de-aaf8-ea7d49dfaf7f"
+    },
+    {
+      "id": "56d2dd42-351e-4773-bb69-b1ba60289677",
+      "pathArr": [
+        "publisher_2",
+        "content_0",
+        "addtional_image_0.jpg"
+      ],
+      "parentId": "ae2c196a-0940-4065-8149-c7ff66675625"
+    },
+    {
+      "id": "39337c80-1018-41e6-a430-836da751d8f3",
+      "pathArr": [
+        "publisher_2",
+        "content_0",
+        "file_0.txt"
+      ],
+      "parentId": "ae2c196a-0940-4065-8149-c7ff66675625"
+    }
+  ],
+  "folders": [
+    {
+      "id": "6dd76b82-bb40-43fa-9e02-770f55c88808",
+      "type": "folder",
+      "pathArr": [
+        "publisher_0"
+      ],
+      "created": "2024-09-22T04:42:22.700Z",
+      "children": [
+        {
+          "id": "694d31ec-ba2d-4d6c-8cb4-019b5277cb97",
+          "type": "folder",
+          "pathArr": [
+            "publisher_0",
+            "content_0"
+          ],
+          "created": "2024-09-22T04:42:22.702Z",
+          "children": [
+            {
+              "id": "f014d252-207d-4068-92d7-96489a429f0c",
+              "pathArr": [
+                "publisher_0",
+                "content_0",
+                "file_0.txt"
+              ],
+              "parentId": "694d31ec-ba2d-4d6c-8cb4-019b5277cb97"
+            },
+            {
+              "id": "db1693d3-f0d6-4edf-b633-7ec795a24b3a",
+              "pathArr": [
+                "publisher_0",
+                "content_0",
+                "file_1.txt"
+              ],
+              "parentId": "694d31ec-ba2d-4d6c-8cb4-019b5277cb97"
+            }
+          ],
+          "parentId": "6dd76b82-bb40-43fa-9e02-770f55c88808"
+        }
+      ]
+    },
+    {
+      "id": "26e9a856-e6b2-498b-99c6-b1447de57db7",
+      "type": "folder",
+      "pathArr": [
+        "publisher_1"
+      ],
+      "created": "2024-09-22T04:49:44.417Z",
+      "children": [
+        {
+          "id": "ee10c597-bc72-40de-aaf8-ea7d49dfaf7f",
+          "type": "folder",
+          "pathArr": [
+            "publisher_1",
+            "content_0"
+          ],
+          "created": "2024-09-22T04:49:44.418Z",
+          "children": [
+            {
+              "id": "10e872d0-d074-4c87-b591-371e886c5c8d",
+              "pathArr": [
+                "publisher_1",
+                "content_0",
+                "file_0.txt"
+              ],
+              "parentId": "ee10c597-bc72-40de-aaf8-ea7d49dfaf7f"
+            }
+          ],
+          "parentId": "26e9a856-e6b2-498b-99c6-b1447de57db7"
+        }
+      ]
+    },
+    {
+      "id": "3a66c439-e061-4ae0-b92d-961f20931bcf",
+      "type": "folder",
+      "pathArr": [
+        "publisher_2"
+      ],
+      "created": "2024-09-22T04:50:42.304Z",
+      "children": [
+        {
+          "id": "ae2c196a-0940-4065-8149-c7ff66675625",
+          "type": "folder",
+          "pathArr": [
+            "publisher_2",
+            "content_0"
+          ],
+          "created": "2024-09-22T04:50:42.305Z",
+          "children": [
+            {
+              "id": "56d2dd42-351e-4773-bb69-b1ba60289677",
+              "pathArr": [
+                "publisher_2",
+                "content_0",
+                "addtional_image_0.jpg"
+              ],
+              "parentId": "ae2c196a-0940-4065-8149-c7ff66675625"
+            },
+            {
+              "id": "39337c80-1018-41e6-a430-836da751d8f3",
+              "pathArr": [
+                "publisher_2",
+                "content_0",
+                "file_0.txt"
+              ],
+              "parentId": "ae2c196a-0940-4065-8149-c7ff66675625"
+            }
+          ],
+          "parentId": "3a66c439-e061-4ae0-b92d-961f20931bcf"
+        }
+      ]
+    },
+    {
+      "id": "694d31ec-ba2d-4d6c-8cb4-019b5277cb97",
+      "type": "folder",
+      "pathArr": [
+        "publisher_0",
+        "content_0"
+      ],
+      "created": "2024-09-22T04:42:22.702Z",
+      "children": [
+        {
+          "id": "f014d252-207d-4068-92d7-96489a429f0c",
+          "pathArr": [
+            "publisher_0",
+            "content_0",
+            "file_0.txt"
+          ],
+          "parentId": "694d31ec-ba2d-4d6c-8cb4-019b5277cb97"
+        },
+        {
+          "id": "db1693d3-f0d6-4edf-b633-7ec795a24b3a",
+          "pathArr": [
+            "publisher_0",
+            "content_0",
+            "file_1.txt"
+          ],
+          "parentId": "694d31ec-ba2d-4d6c-8cb4-019b5277cb97"
+        }
+      ],
+      "parentId": "6dd76b82-bb40-43fa-9e02-770f55c88808"
+    },
+    {
+      "id": "ee10c597-bc72-40de-aaf8-ea7d49dfaf7f",
+      "type": "folder",
+      "pathArr": [
+        "publisher_1",
+        "content_0"
+      ],
+      "created": "2024-09-22T04:49:44.418Z",
+      "children": [
+        {
+          "id": "10e872d0-d074-4c87-b591-371e886c5c8d",
+          "pathArr": [
+            "publisher_1",
+            "content_0",
+            "file_0.txt"
+          ],
+          "parentId": "ee10c597-bc72-40de-aaf8-ea7d49dfaf7f"
+        }
+      ],
+      "parentId": "26e9a856-e6b2-498b-99c6-b1447de57db7"
+    },
+    {
+      "id": "ae2c196a-0940-4065-8149-c7ff66675625",
+      "type": "folder",
+      "pathArr": [
+        "publisher_2",
+        "content_0"
+      ],
+      "created": "2024-09-22T04:50:42.305Z",
+      "children": [
+        {
+          "id": "56d2dd42-351e-4773-bb69-b1ba60289677",
+          "pathArr": [
+            "publisher_2",
+            "content_0",
+            "addtional_image_0.jpg"
+          ],
+          "parentId": "ae2c196a-0940-4065-8149-c7ff66675625"
+        },
+        {
+          "id": "39337c80-1018-41e6-a430-836da751d8f3",
+          "pathArr": [
+            "publisher_2",
+            "content_0",
+            "file_0.txt"
+          ],
+          "parentId": "ae2c196a-0940-4065-8149-c7ff66675625"
+        }
+      ],
+      "parentId": "3a66c439-e061-4ae0-b92d-961f20931bcf"
+    }
+  ],
+  "fileMap": {
+    "publisher_0~~content_0~~file_0.txt": {
+      "id": "f014d252-207d-4068-92d7-96489a429f0c"
+    },
+    "publisher_0~~content_0~~file_1.txt": {
+      "id": "db1693d3-f0d6-4edf-b633-7ec795a24b3a"
+    },
+    "publisher_1~~content_0~~file_0.txt": {
+      "id": "10e872d0-d074-4c87-b591-371e886c5c8d"
+    },
+    "publisher_2~~content_0~~addtional_image_0.jpg": {
+      "id": "56d2dd42-351e-4773-bb69-b1ba60289677"
+    },
+    "publisher_2~~content_0~~file_0.txt": {
+      "id": "39337c80-1018-41e6-a430-836da751d8f3"
+    }
+  },
+  "folderMap": {
+    "publisher_0": {
+      "id": "6dd76b82-bb40-43fa-9e02-770f55c88808"
+    },
+    "publisher_1": {
+      "id": "26e9a856-e6b2-498b-99c6-b1447de57db7"
+    },
+    "publisher_2": {
+      "id": "3a66c439-e061-4ae0-b92d-961f20931bcf"
+    },
+    "publisher_0~~content_0": {
+      "id": "694d31ec-ba2d-4d6c-8cb4-019b5277cb97"
+    },
+    "publisher_1~~content_0": {
+      "id": "ee10c597-bc72-40de-aaf8-ea7d49dfaf7f"
+    },
+    "publisher_2~~content_0": {
+      "id": "ae2c196a-0940-4065-8149-c7ff66675625"
+    }
+  }
+}
