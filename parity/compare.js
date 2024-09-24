@@ -1,8 +1,8 @@
 const fs = require('node:fs')
 
 const result = {}
-const d0 = JSON.parse(Buffer.from(fs.readFileSync('source_a.json')).toString('utf8'))
-const d1 = JSON.parse(Buffer.from(fs.readFileSync('source_b.json')).toString('utf8'))
+const d0 = JSON.parse(Buffer.from(fs.readFileSync('buf_music.json')).toString('utf8'))
+const d1 = JSON.parse(Buffer.from(fs.readFileSync('sdcard_music.json')).toString('utf8'))
 
 result.a = compare(d0, d1)
 result.b = compare(d1, d0)
