@@ -4,3 +4,5 @@ parity/state.json
 parity/*.zip
 parity/test_source/*
 parity/test_target/*
+trash_compactor/cli/data*.js
+*.log
