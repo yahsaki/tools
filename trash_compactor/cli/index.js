@@ -6,10 +6,27 @@ const { randomUUID } = require('node:crypto')
 const delay = ms => new Promise(resolve => setTimeout(() => resolve(), ms))
 
 // TODO: make this a json file
-const data = require('./data_1')
+const data = require('./data_burniceIframe')
 
 /*
   convert raw video files into gifs and webms
+  example data.js file
+```
+module.exports = {
+  baseOutputFolder: 'C:\\Users\\Administrator\\Videos\\output',
+  files: {
+    'C:\\Users\\Administrator\\Videos\\afterburner\\ZenlessZoneZero_2024_10_20_09_47_50_064.mkv': {
+      jobs: [
+        {gif:0,webm:1,vp9:0,name:'example_0'},
+        {gif:0,webm:1,vp9:0,name:'example_1',from:'1:18',to:'1:24'},
+      ]
+    },
+  }
+}
+```
+
+vp9 doesnt work properly. set crf ridiculously high and the output is still several times bigger
+than the input lol.
 */
 ;(async () => {
   const filePaths = []
@@ -71,16 +88,25 @@ const data = require('./data_1')
       if (job.webm) {
         // no point in doing webms outside of vp9 tbh
         let webmFilePath
+        webmFilePath = await createWebm({status,job,dir:jobDir,baseFilePath:baseJobFilePath})
         webmFilePath = await createWebm({status,job,dir:jobDir,scale:{x:80*16,y:80*9},baseFilePath:baseJobFilePath})
-        wembFilePath = await createWebm({status,job,dir:jobDir,scale:{x:45*16,y:45*9},baseFilePath:baseJobFilePath})
-        wembFilePath = await createWebm({status,job,dir:jobDir,scale:{x:20*16,y:20*9},baseFilePath:baseJobFilePath})
+        webmFilePath = await createWebm({status,job,dir:jobDir,scale:{x:55*16,y:55*9},baseFilePath:baseJobFilePath})
+        webmFilePath = await createWebm({status,job,dir:jobDir,scale:{x:50*16,y:50*9},baseFilePath:baseJobFilePath})
+        webmFilePath = await createWebm({status,job,dir:jobDir,scale:{x:45*16,y:45*9},baseFilePath:baseJobFilePath})
+        webmFilePath = await createWebm({status,job,dir:jobDir,scale:{x:40*16,y:40*9},baseFilePath:baseJobFilePath})
+        webmFilePath = await createWebm({status,job,dir:jobDir,scale:{x:35*16,y:35*9},baseFilePath:baseJobFilePath})
+        webmFilePath = await createWebm({status,job,dir:jobDir,scale:{x:20*16,y:20*9},baseFilePath:baseJobFilePath})
       }
       if (job.gif) {
         let gifFilePath
         gifFilePath = await createGif({status,job,dir:jobDir,scale:320,fps:10,baseFilePath:baseJobFilePath})
         gifFilePath = await createGif({status,job,dir:jobDir,scale:320,fps:30,baseFilePath:baseJobFilePath})
+        gifFilePath = await createGif({status,job,dir:jobDir,scale:480,fps:10,baseFilePath:baseJobFilePath})
+        gifFilePath = await createGif({status,job,dir:jobDir,scale:480,fps:30,baseFilePath:baseJobFilePath})
         gifFilePath = await createGif({status,job,dir:jobDir,scale:540,fps:10,baseFilePath:baseJobFilePath})
         gifFilePath = await createGif({status,job,dir:jobDir,scale:540,fps:30,baseFilePath:baseJobFilePath})
+        gifFilePath = await createGif({status,job,dir:jobDir,scale:640,fps:10,baseFilePath:baseJobFilePath})
+        gifFilePath = await createGif({status,job,dir:jobDir,scale:640,fps:30,baseFilePath:baseJobFilePath})
         gifFilePath = await createGif({status,job,dir:jobDir,scale:720,fps:10,baseFilePath:baseJobFilePath})
         gifFilePath = await createGif({status,job,dir:jobDir,scale:720,fps:30,baseFilePath:baseJobFilePath})
       }
@@ -104,6 +130,7 @@ async function createVp9(params) {
 
   let fileName = `${job.name}_${scale.x}x${scale.y}_vp9.webm`
   let filePath = path.join(dir, fileName)
+  // TODO: support linux
   const code = await invoke('cmd.exe', ['/c', 'vp9.bat', baseFilePath, filePath, `${scale.x}`])
   // not sure if code works yet
   return
@@ -118,10 +145,12 @@ async function createWebm(params) {
   const baseFilePath = params.baseFilePath
 
   let args = []
-  let fileName = `${job.name}_${scale.x}x${scale.y}.webm`
+  let fileName = `${job.name}_${scale?.x}x${scale?.y}.webm`
   let filePath = path.join(dir, fileName)
   args.push('-i');args.push(baseFilePath)
-  args.push('-vf');args.push(`scale=${scale.x}:${scale.y}`)
+  if (scale) {
+    args.push('-vf');args.push(`scale=${scale.x}:${scale.y}`)
+  }
   args.push('-y');args.push(filePath)
   code = await invoke('ffmpeg', args)
   if (code !== 0) {
@@ -134,7 +163,7 @@ async function createWebm(params) {
   const baseWebmFilePath = filePath
 
   args = []
-  fileName = `${job.name}_${scale.x}x${scale.y}_no_audio.webm`
+  fileName = `${job.name}_${scale?.x}x${scale?.y}_no_audio.webm`
   filePath = path.join(dir, fileName)
   args.push('-i');args.push(baseWebmFilePath)
   args.push('-c');args.push('copy');args.push('-an')
