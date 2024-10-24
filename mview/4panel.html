@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      .video-grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+      }
+      .vgi-0_0 { grid-column: 1; grid-row: 1 }
+      .vgi-0_1 { grid-column: 2; grid-row: 1 }
+      .vgi-1_0 { grid-column: 1; grid-row: 2 }
+      .vgi-1_1 { grid-column: 2; grid-row: 2 }
+
+    </style>
+    <title>title</title>
+  </head>
+  <body>
+    <div id="root">
+      <div class="video-grid-container">
+        <div class="vgi-0_0">
+          <div class="video-wrapper">
+            <video controls />
+          </div>
+        </div>
+        <div classs="vgi-0_1">
+          <div class="video-wrapper">
+            <video controls />
+          </div>
+        </div>
+        <div classs="vgi-1_0">
+          <div class="video-wrapper">
+            <video controls />
+          </div>
+        </div>
+        <div classs="vgi-1_1">
+          <div class="video-wrapper">
+            <video controls />
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const src = "C:\\Users\\Administrator\\Videos\\verted\\ZenlessZoneZero_2024_10_05_16_09_19_047.mkv"
+      window.addEventListener('DOMContentLoaded', () => {
+        console.log('content loaded')
+      })
+    </script>
+  </body>
+</html>
