@@ -1,0 +1,1 @@
+forfiles /p .\ /M *.mkv /c "cmd /c for %%I  in (@fname) do C:\bin\ffmpeg.exe -i @file .\%%~I.mp4 && timeout 10"

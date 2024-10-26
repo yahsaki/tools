@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      html {
+        background: black;
+        background-color: black;
+      }
+      .video-grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+      }
+      .video-grid-container < div {
+        width: 40%
+      }
+      video {
+        width: 100%;
+      }
+      .vgi-0_0 { grid-column: 1; grid-row: 1 }
+      .vgi-0_1 { grid-column: 2; grid-row: 1 }
+      .vgi-1_0 { grid-column: 1; grid-row: 2 }
+      .vgi-1_1 { grid-column: 2; grid-row: 2 }
+      .txt-filename { width: 300px }
+    </style>
+    <title>title</title>
+  </head>
+  <body>
+    <div id="root">
+      <button id="btn-toggle">Pause</button>
+      <div class="video-grid-container">
+        <div class="vgi-0_0">
+          <div class="video-wrapper">
+            <video controls id="video0" />
+          </div>
+        </div>
+        <div classs="vgi-0_1">
+          <div class="video-wrapper">
+            <video controls id="video1" />
+          </div>
+        </div>
+        <div classs="vgi-1_0">
+          <div class="video-wrapper">
+            <video controls id="video2" />
+          </div>
+        </div>
+        <div classs="vgi-1_1">
+          <div class="video-wrapper">
+            <video controls id="video3" />
+          </div>
+        </div>
+      </div>
+      <div class="data-grid-container">
+        <div>
+          <button>D</button>
+          <input id="txt-filename-video0" class="txt-filename" type="text" />
+        </div>
+        <div>
+          <button>D</button>
+          <input id="txt-filename-video1" class="txt-filename" type="text" />
+        </div>
+        <div>
+          <button>D</button>
+          <input id="txt-filename-video2" class="txt-filename" type="text" />
+        </div>
+        <div>
+          <button>D</button>
+          <input id="txt-filename-video3" class="txt-filename" type="text" />
+        </div>
+        
+      </div>
+    </div>
+    <script src="./data.js"></script>
+    <script>
+      const _ = {
+      i: 0,
+      control: {
+        paused: false,
+      },
+      watching:{}/*,watched:[]*/
+      }
+      const defaultVolume = 0.2
+      window.addEventListener('DOMContentLoaded', () => {
+        console.log('content loaded', data)
+        document.getElementById('btn-toggle').addEventListener('click', onGlobalToggleClick)
+        init()
+      })
+      
+      function init() {
+        for (let i = 0; i < 4; i++) {
+          if (!data.length) {
+            throw Error('fucked up, array ran out when it shouldntve')
+          }
+          const filename = data.splice(0, 1)[0]
+          const el = document.getElementById(`video${i}`)
+          el.addEventListener('ended', onPlaybackEnded)
+          el.setAttribute('volume', defaultVolume)
+          document.getElementById(`txt-filename-${el.id}`).value = filename
+          console.log(filename)
+          el.src = filename
+          el.setAttribute('data-filename', filename)
+          _.watching[filename] = {}
+          el.play()
+          //return
+        }
+      }
+      
+      function next(el) {
+        const filename = data.splice(0, 1)[0]
+        el.src = filename
+        el.setAttribute('data-filename', filename)
+        _.watching[filename] = {}
+        document.getElementById(`txt-filename-${el.id}`).value = filename
+        el.play()
+      }
+      
+      function onPlaybackEnded(e) {
+        console.log('playback ended', e)
+        const filename = e.srcElement.getAttribute('data-filename')
+        console.log(filename)
+        // remove from watching(this prop not directly used yet)
+        delete _.watching[filename]
+        //_.watched.push(filename)
+        // forget juggling multiple arrays, push it right back into data
+        data.push(filename)
+        next(e.srcElement)
+      }
+      
+      function onGlobalToggleClick(e) {
+        if (_.control.paused) {
+          document.getElementById('video0').play()
+          document.getElementById('video1').play()
+          document.getElementById('video2').play()
+          document.getElementById('video3').play()
+          e.srcElement.innerText = 'PAUSE'
+          _.control.paused = false
+        } else {
+          document.getElementById('video0').pause()
+          document.getElementById('video1').pause()
+          document.getElementById('video2').pause()
+          document.getElementById('video3').pause()
+          e.srcElement.innerText = 'PLAY'
+          _.control.paused = true
+        }
+      }
+      
+      function onPlaybackEnded_old() {
+        console.log('playback ended')
+        _.i += 1
+        if (_.i >= data.length) { _.i = 0 }
+        setTimeout(() => {
+          const video = document.getElementById('video')
+          video.src = data[_.i]
+          video.play()
+        }, 1000)
+      }
+    </script>
+  </body>
+</html>
