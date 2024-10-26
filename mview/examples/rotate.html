@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      html {
+        background: black;
+        background-color: black;
+      }
+      .video-wrapper {
+      }
+    </style>
+    <title>title</title>
+  </head>
+  <body>
+    <div id="root">
+      <div class="video-grid-container">
+        <div class="vgi-0_0">
+          <div class="video-wrapper">
+            <video controls id="video" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const data = ['dance.mp4','numbers.mp4','dance.mp4']
+      const _ = { i: 0, }
+      window.addEventListener('DOMContentLoaded', () => {
+        console.log('content loaded')
+        const video = document.getElementById('video')
+        video.addEventListener('ended', onPlaybackEnded)
+        video.src = data[_.i]
+        video.play()
+      })
+      
+      function onPlaybackEnded() {
+        console.log('playback ended')
+        _.i += 1
+        if (_.i >= data.length) { _.i = 0 }
+        setTimeout(() => {
+          const video = document.getElementById('video')
+          video.src = data[_.i]
+          video.play()
+        }, 1000)
+      }
+    </script>
+  </body>
+</html>
