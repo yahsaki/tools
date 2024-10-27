@@ -23,6 +23,14 @@
       .vgi-1_0 { grid-column: 1; grid-row: 2 }
       .vgi-1_1 { grid-column: 2; grid-row: 2 }
       .txt-filename { width: 300px }
+      
+      .data-grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+      }
+      .dgi-0_0 { grid-column: 1; grid-row: 1 }
+      .dgi-0_1 { grid-column: 2; grid-row: 1 }
     </style>
     <title>title</title>
   </head>
@@ -52,27 +60,37 @@
         </div>
       </div>
       <div class="data-grid-container">
-        <div>
-          <button>D</button>
-          <input id="txt-filename-video0" class="txt-filename" type="text" />
+        <div class="vgi-0_0">
+          <div>
+            <button>D</button>
+            <input id="txt-filename-video0" class="txt-filename" type="text" />
+          </div>
+          <div>
+            <button>D</button>
+            <input id="txt-filename-video2" class="txt-filename" type="text" />
+          </div>
         </div>
-        <div>
-          <button>D</button>
-          <input id="txt-filename-video1" class="txt-filename" type="text" />
+        <div classs="vgi-0_1">
+          <div>
+            <button>D</button>
+            <input id="txt-filename-video1" class="txt-filename" type="text" />
+          </div>
+          <div>
+            <button>D</button>
+            <input id="txt-filename-video3" class="txt-filename" type="text" />
+          </div>
         </div>
-        <div>
-          <button>D</button>
-          <input id="txt-filename-video2" class="txt-filename" type="text" />
-        </div>
-        <div>
-          <button>D</button>
-          <input id="txt-filename-video3" class="txt-filename" type="text" />
-        </div>
-        
       </div>
     </div>
     <script src="./data.js"></script>
     <script>
+      /*
+        TODO:
+          - randomize on init
+          - show the full path somewhere(title prop) when rendering videos from different locations
+          - needs a next button, impossible to do previous button(reliably) due to nature of setup.
+            we might want to implement a short wait once playback ends
+      */
       const _ = {
       i: 0,
       control: {
@@ -104,6 +122,13 @@
           el.play()
           //return
         }
+        // wait half a second and check if zeroeth video is playing
+        setTimeout(() => {
+          if (document.getElementById('video0').paused) {
+            _.control.paused = true
+            document.getElementById('btn-toggle').innerText = 'PLAY'
+          }
+        }, 500)
       }
       
       function next(el) {
@@ -116,9 +141,8 @@
       }
       
       function onPlaybackEnded(e) {
-        console.log('playback ended', e)
         const filename = e.srcElement.getAttribute('data-filename')
-        console.log(filename)
+        console.log('playback ended', filename)
         // remove from watching(this prop not directly used yet)
         delete _.watching[filename]
         //_.watched.push(filename)
