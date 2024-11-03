@@ -49,8 +49,12 @@ function compare(a, b) {
   for (const map in a.folderMap) {
     if (!b.folderMap[map]) {
       const folder = a.folders.find(x => x.id == a.folderMap[map].id)
+      // lets ignore child folders of parent folders intended to be created in this process. this is
+      // single purpose copy, not for reporting so no need to know child folders when the parent will
+      // create the child regardless
+      if (result.folders.find(x => x.pathArr.length === 1 && x.pathArr[0] === folder.pathArr[0])) { continue }
       const record = {
-        parthArr: folder.pathArr,
+        pathArr: folder.pathArr,
         created: folder.created,
       }
       result.folders.push(record)
@@ -64,8 +68,10 @@ function compare(a, b) {
       if (result.folderMaps.find(x => map.startsWith(x))) { continue }
 
       const file = a.files.find(x => x.id == a.fileMap[map].id)
+      // ignore m3d files during this debug
+      //if (map.endsWith('.m3d')) { continue }
       const record = {
-        parthArr: file.pathArr,
+        pathArr: file.pathArr,
         created: file.created,
       }
       result.files.push(record)
