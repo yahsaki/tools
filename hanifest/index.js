@@ -1,173 +1,201 @@
 const fs = require('node:fs')
 const path = require('node:path')
-/*
- tool takes a DIR param which should just be one letter
-
- structuring a cmd like 'arg=arg node index.js' does not work in PS and probably cmd either POSs
- TODO
-  - print how much disk space is left in output
-  - fix that OS check(not sure how just yet)
-  - json output. during txt generation, read in json, combine with whats in the current disk, compose so the
-    entries say which card they live in. IE, if disk #0 has _managed/docs/linux/linux_administration.pdf and
-    disk #1 has _managed/docs/linux/shell_scripting.pdf, the final json output would look something like
-    {
-      linux: [
-        {name:'linux_administration.pdf': disk:'#0'}
-        {name:'shell_scripting.pdf': disk:'#1'}
-      ]
-    }
-    cant do object naming since duplication is very likely
-    idgaf atm
-  - this setup would not support documents well since it would be something like
-    _managed/documents/tech/software/C/<book folder name>/book_name.pdf
-    _managed/documents/tech/software/C/<book folder name>/book_name.epub
-    _managed/documents/tech/software/C/<book folder name>/extras.zip
-    so support this kind of structure ding bat
-
-*/
 
 const validDirs = ['a','b','e','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 const managedDirName = '_managed'
 const infoJsonName = 'info.json'
+const mediaJsonName = 'media.json'
+
+let mediaObject = {
+  general: {
+    drive: {
+      /*'TGPro-1TB-000': {
+        name: 'TGPro-1TB-000',
+        date: '<ISOdate>', // created, last updated, whatever
+        type: 'media',
+        space: {
+          total: 953000000,
+          used: 900000000,
+          free: 53000000,
+          freeString: '53GB',
+        },
+        topLevelFolders: ['anime','manga'],
+      },*/
+    }
+  },
+  media: {
+    /*anime: [ // sort by name ascending
+      {
+        folderName: '', // would love to store actual name at some point(reboot manifest)
+        drives: {
+          'TGPro-1TB-000': {
+            usedSpace: 555555,
+            usedSpaceString: '555MB',
+            files: 12,
+            folders: 1,
+          }
+        },
+      }
+    ],
+    manga: [],*/
+  }
+}
+const myfs = {
+  mkdir: (dir) => {
+    try {
+      fs.mkdirSync(dir, {recursive: true})
+    } catch (err) {
+      if (err.code !== 'EEXIST') { throw err }
+    }
+    return
+  },
+  readJson: (filePath) => {
+    if (!filePath?.length) { throw new Error(`readJson: invalid args. expected string path, received '${typeof filePath}'`) }
+    let binary
+    try {
+      // I dont think this is binary... whatever
+      binary = fs.readFileSync(filePath)
+    } catch(err) {
+      return
+    }
+
+    if (!binary) { return }
+    try {
+      return JSON.parse(Buffer.from(binary).toString())
+    } catch(err) { throw err }
+  },
+  writeJson: function(filePath, data, formatted = false) {
+    if (!filePath?.length || typeof data !== 'object') {
+      throw new Error(`writeJson: invalid args`)
+    }
+    const parsed = path.parse(filePath)
+    //this.fs.mkdir(parsed.dir)
+    // other tools seem to add a newline char at the end
+    if (formatted) {
+      fs.writeFileSync(filePath, JSON.stringify(data,' ',2)) // more readable
+    } else {
+      fs.writeFileSync(filePath, JSON.stringify(data))
+    }
+    return
+  },
+}
 
 ;(async () => {
-  // TODO: support linux(lol what a world)
-  // doesnt feel right. what if there is a linux distro with 'windows' in the name? lol
-  if (!process.env.OS.toLowerCase().includes('windows')) throw Error(`Only windows supported at the moment. didnt setup nix VM yet`)
-  const dir = process.env.DIR
-  if (!isDirValid(dir)) throw Error(`argument DIR '${dir}' is invalid`)
-
-  const winDir = `${dir.toUpperCase()}:\\`
-  const res = fs.readdirSync(winDir)
-  if (!isDriveValid(res)) throw Error(`Drive must contain a dir named '${managedDirName}' and a json file named '${infoJsonName}' on root`)
-
-  const infoPath = path.join(winDir, infoJsonName)
-  const infoBuf = fs.readFileSync(infoPath)
-  let info
-  try {
-    info = JSON.parse(Buffer.from(infoBuf).toString('utf8'))
-  } catch (err) {
-    throw Error(`failed to parse json file at 'infoPath'`, err)
+  const homePath = path.join(process.env.HOME, 'Documents', 'mstbu', 'hanifest_output')
+  // make this directory if it doesnt exist
+  myfs.mkdir(homePath)
+  
+  // check for existing media json
+  const mediaJsonFilePath = path.join(homePath, mediaJsonName)
+  if (fs.existsSync(mediaJsonFilePath)) {
+    mediaObject = myfs.readJson(mediaJsonFilePath)
   }
-
-  if (!isInfoValid(info)) throw Error(`IDK something wrong with the '${infoJsonName}' file's properties`)
-
-  const dirData = getDirData(path.join(winDir, managedDirName))
-  console.log(JSON.stringify(dirData,' ',2))
-  writeDirData({info,dirData})
+  
+  // check for assumed drive defaults(very temporary behavior)
+  const defaultWorkingPath = 'a:\\'
+  if (!fs.existsSync(defaultWorkingPath)) { console.log(`path '${defaultWorkingPath}' does not have a drive mounted`);process.exit() }
+  
+  const infoJsonPath = path.join(defaultWorkingPath, 'info.json')
+  if (!fs.existsSync(infoJsonPath)) { console.log(`no info json located at '${infoJsonPath}'`);process.exit() }
+  
+  const infoJson = myfs.readJson(infoJsonPath)
+  const managedPath = path.join(defaultWorkingPath, '_managed')
+  if (!infoJson.name?.length) { console.log('info json name property does not exist');process.exit() }
+  if (!fs.existsSync(managedPath)) { console.log(`_managed dir does not exist`);process.exit() }
+  
+  const driveName = infoJson.name
+  console.log(`parsing drive '${driveName}'`)
+  
+  if (!mediaObject.general.drive[driveName]) {
+    
+    const statfs = fs.statfsSync(defaultWorkingPath)
+    
+    mediaObject.general.drive[driveName] = {
+      name: driveName, //'TGPro-1TB-000',
+      date: new Date().toISOString(),
+      type: 'media', // 'dump' is the other option not applicable here
+      space: {
+        size: 0, // failing to get actual size value
+        used: 0,  // will probably have to just add everything with bytes on the disk but this might not work if something is outside of _managed(which it shouldnt)
+        free: statfs.bsize*statfs.bfree, // from fsStats
+        freeString: convertBytesToHumanReadable(statfs.bsize*statfs.bfree),
+        files: 0,
+        folders: 0,
+      },
+      topLevelFolders: [], // 'anime','manga'
+    }
+  }
+  const data = await parseMediaData({driveName,managedPath})
+  
+  process.exit()
+  
+  
+  
 })()
 
-function writeDirData(args) {
-  const info = args.info
-  const data = args.dirData
-
-  const date = new Date()
-  // might need to sanitize filename
-  const filename = `${info.name}_${date.toISOString().substring(0,10)}.txt`
-  let txt = ''
-  for (const ci in data.sorted) {
-    const cn = data.sorted[ci]
-    const category = data.category[cn]
-    txt += `${cn.toUpperCase()}\n`
-
-    for (const ei in category.sorted) {
-      const en = category.sorted[ei]
-      const entry = category.entry[en]
-      txt += `  ${en}\n`
-
-      for (const ci in entry.children) {
-        const child = entry.children[ci]
-        txt += `      ${child}\n`
+async function parseMediaData(args) {
+  const managedPath = args.managedPath
+  const driveName = args.driveName
+  const drive = mediaObject.general.drive[driveName]
+  console.log(`parseMediaData: args`, args)
+  
+  const parentMediaPathNames = fs.readdirSync(managedPath)
+  console.log('media folders', parentMediaPathNames)
+  drive.topLevelFolders = parentMediaPathNames
+  
+  for (let i = 0; i < parentMediaPathNames.length; i++) {
+    const parentMediaPathName = parentMediaPathNames[i]
+    const parentMediaPath = path.join(managedPath, parentMediaPathName)
+    console.log('parsing media folder', parentMediaPath)
+    
+    const parentMediaNames = fs.readdirSync(parentMediaPath)
+    console.log('parent media name', parentMediaNames)
+    
+    for (let j = 0; j < parentMediaNames.length; j++) {
+      const mediaName = parentMediaNames[j]
+      let bytes = 0
+      let files = 0
+      let folders = 0
+      console.log(`parsing '${mediaName}' for type '${parentMediaPathName}'`)
+      const mediaPath = path.join(parentMediaPath, mediaName)
+      console.log('mediaPath', mediaPath)
+      
+      const objects = fs.readdirSync(mediaPath, {recursive:true})
+      for (let k = 0; k < objects.length; k++) {
+        const objectName = objects[k]
+        const objectPath = path.join(mediaPath, objectName)
+        const stats = fs.statSync(objectPath)
+        //console.log(`stats for '${objectPath}'`, stats)
+        // first time im differenciating files/folders by this integer
+        if (stats.mode === 33206) { // file
+          files+=1
+          bytes+=stats.size
+        }
+        if (stats.mode === 16822) { // folder
+          folders+=1
+        }
       }
+      drive.space.files+=files
+      drive.space.folders+=folders
+      drive.space.used+=bytes
+      
+      console.log(`results for ${mediaPath}:\nfiles: ${drive.space.files}\nfolders: ${drive.space.folders}\nbytes: ${convertBytesToHumanReadable(drive.space.used)}`)
+      process.exit()
     }
+    process.exit()
   }
-
-  fs.writeFileSync(filename, txt)
-  return
-}
-function sortEntries(arg) {
-  let sorted = Object.getOwnPropertyNames(arg)
-}
-function isDirValid(arg) {
-  if (typeof arg !== 'string') return false
-  if (!arg.length) return false
-  return !!~validDirs.indexOf(arg.toLowerCase())
-}
-function isDriveValid(arg) {
-  // we can safely assume at this point we received an array empty or not
-  if (!~arg.indexOf(managedDirName)) return false
-  if (!~arg.indexOf(infoJsonName)) return false
-  return true
-}
-function isInfoValid(arg) {
-  if (!arg.name?.length) return false
-  return true
 }
 
-function getDirData(dir) {
-  const data = {sorted:[],category:{}}
-  const tlds = fs.readdirSync(dir)
-  console.log(`tld:`, tlds)
-  for (const i in tlds) {
-    data.category[tlds[i]] = {
-      sorted: [],
-      entry: {},
-    }
+function convertBytesToHumanReadable(bytes) {
+  if (bytes > 1024*1024*1024*1024) {
+    return `${(bytes/1024/1024/1024/1024).toFixed(2)}TB`
+  }if (bytes > 1024*1024*1024) {
+    return `${(bytes/1024/1024/1024).toFixed(2)}GB`
+  } else if (bytes > 1024*1024) {
+    return `${Math.round(bytes/1024/1024)}MB`
+  } else if (bytes > 1024) {
+    return `${Math.round(bytes/1024)}KB`
+  } else {
+    return `${bytes}B`
   }
-  //console.log(data)
-
-  for (const cn in data.category) {
-    //console.log(cn)
-    const category = data.category[cn]
-
-    const categoryPath = path.join(dir, cn)
-    //console.log(categoryPath)
-
-    const entries = fs.readdirSync(categoryPath)
-    //console.log(entries)
-
-    for (let i in entries) {
-      const en = entries[i]
-      const entryPath = path.join(categoryPath, en)
-      //console.log(entryPath)
-      const children = fs.readdirSync(entryPath, {withFileTypes:true})
-      //category.entry[en] = { children: children.filter(x => !~x.name?.indexOf('.')).map(x => { if (x) { return x.name } }) }
-      category.entry[en] = { children: children.map(x => { if (x) { return x.name } }).sort() }
-      //console.log(category.entry[en])
-    }
-  }
-  // sort
-  data.sorted = Object.getOwnPropertyNames(data.category).sort()
-  for (const cn in data.category) {
-    data.category[cn].sorted = Object.getOwnPropertyNames(data.category[cn].entry).sort()
-    // sorting children during initial creation for now. when we add file data will most likely move that to here, maybe
-    //for (const en in data.category[cn].entry) {
-      //console.log(data.category[cn].entry[en], en)
-      //data.category[cn].entry[en].children.sort()
-      //for (const en in data.category[cen].entry) {
-      //  data.category[cen].entry[en].children.sort()
-      //}
-    //}
-  }
-  return data
-
-  console.log(JSON.stringify(data,' ',2))
-  const jsonOutput = {}
-
-  let textOutput = ''
-  for (const cn in data.category) {
-    const category = data.category[cn]
-    textOutput += `${cn.toUpperCase()}\n`
-
-    for (const en in category.entry) {
-      const entry = category.entry[en]
-      textOutput += `  ${en}\n`
-
-      for (const ci in entry.children) {
-        const child = entry.children[ci]
-        textOutput += `      ${child}\n`
-      }
-    }
-  }
-  fs.writeFileSync('textOutput.txt', textOutput)
 }
