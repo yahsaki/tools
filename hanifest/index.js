@@ -154,7 +154,17 @@ const myfs = {
   
   console.log(`parsing drive '${driveName}'`)
   await parseMediaData({driveName,managedPath})
+  // update the total amount of consumed space on the drive
   mediaObject.general.drive[driveName].space.usedString = convertBytesToHumanReadable(mediaObject.general.drive[driveName].space.used)
+  // sort media arrays(for all drives)
+  for (let dn in mediaObject.drive) {
+    for (let mn in mediaObject.drive[dn].media) {
+      mediaObject.drive[dn].media[mn].sort(nameComparitor)
+    }
+  }
+  for (let mn in mediaObject.media)
+    mediaObject.media[mn].sort(nameComparitor)
+  
   myfs.writeJson(mediaJsonFilePath, mediaObject, true)
   process.exit()
 })()
@@ -251,4 +261,16 @@ function convertBytesToHumanReadable(bytes) {
   } else {
     return `${bytes}B`
   }
+}
+function nameComparitor(a, b) {
+  const nameA = a.name.toUpperCase()
+  const nameB = b.name.toUpperCase()
+  if (nameA < nameB) {
+    return -1
+  }
+  if (nameA > nameB) {
+    return 1
+  }
+  // names must be equal
+  return 0
 }
