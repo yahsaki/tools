@@ -23,6 +23,13 @@ let mediaObject = {
       },*/
     }
   },
+  drive: {
+    /*
+    'TGPro-1TB-000': {
+      
+    }
+    */
+  },
   media: {
     /*anime: [ // sort by name ascending
       {
@@ -88,6 +95,7 @@ const myfs = {
   // check for existing media json
   const mediaJsonFilePath = path.join(homePath, mediaJsonName)
   if (fs.existsSync(mediaJsonFilePath)) {
+    console.log('retrieved existing media data')
     mediaObject = myfs.readJson(mediaJsonFilePath)
   }
   
@@ -104,44 +112,61 @@ const myfs = {
   if (!fs.existsSync(managedPath)) { console.log(`_managed dir does not exist`);process.exit() }
   
   const driveName = infoJson.name
-  console.log(`parsing drive '${driveName}'`)
   
-  if (!mediaObject.general.drive[driveName]) {
-    
-    const statfs = fs.statfsSync(defaultWorkingPath)
-    
-    mediaObject.general.drive[driveName] = {
-      name: driveName, //'TGPro-1TB-000',
-      date: new Date().toISOString(),
-      type: 'media', // 'dump' is the other option not applicable here
-      space: {
-        size: 0, // failing to get actual size value
-        used: 0,  // will probably have to just add everything with bytes on the disk but this might not work if something is outside of _managed(which it shouldnt)
-        free: statfs.bsize*statfs.bfree, // from fsStats
-        freeString: convertBytesToHumanReadable(statfs.bsize*statfs.bfree),
-        files: 0,
-        folders: 0,
-      },
-      topLevelFolders: [], // 'anime','manga'
+  
+  if (mediaObject.general.drive[driveName]) {
+    // if this drive was already parsed, data that no longer exists can reside here so lets purge everything
+    // (reason for the purge is multiple runs will cause duplicate data in arrays...)
+    for (let mediaName in mediaObject.media) {
+      for (let i = mediaObject.media[mediaName].length-1; i >= 0; i--) {
+        if (mediaObject.media[mediaName][i].drive[driveName]) {
+          // found an entry in media for this drive. if this entry only exists on this drive, delete the whole entry,
+          // otherwise delete only the drive prop
+          if (Object.getOwnPropertyNames(mediaObject.media[mediaName][i].drive).length > 1) {
+            delete mediaObject.media[mediaName][i].drive[driveName]
+          } else {
+            const m = mediaObject.media[mediaName].splice(i, 1)
+          }
+        }
+      }
     }
   }
-  const data = await parseMediaData({driveName,managedPath})
   
+  const statfs = fs.statfsSync(defaultWorkingPath)    
+  mediaObject.general.drive[driveName] = {
+    name: driveName, //'TGPro-1TB-000',
+    date: new Date().toISOString(),
+    type: 'media', // 'dump' is the other option not applicable here
+    space: {
+      size: 0, // failing to get actual size value
+      used: 0,  // will probably have to just add everything with bytes on the disk but this might not work if something is outside of _managed(which it shouldnt)
+      usedString: '',
+      free: statfs.bsize*statfs.bfree, // from fsStats
+      freeString: convertBytesToHumanReadable(statfs.bsize*statfs.bfree),
+      files: 0,
+      folders: 0,
+    },
+    topLevelFolders: [], // 'anime','manga'
+  }
+  mediaObject.drive[driveName] = {
+    media: {} // I assumed more would live here
+  }
+  
+  console.log(`parsing drive '${driveName}'`)
+  await parseMediaData({driveName,managedPath})
+  mediaObject.general.drive[driveName].space.usedString = convertBytesToHumanReadable(mediaObject.general.drive[driveName].space.used)
+  myfs.writeJson(mediaJsonFilePath, mediaObject, true)
   process.exit()
-  
-  
-  
 })()
 
 async function parseMediaData(args) {
   const managedPath = args.managedPath
   const driveName = args.driveName
-  const drive = mediaObject.general.drive[driveName]
   console.log(`parseMediaData: args`, args)
   
   const parentMediaPathNames = fs.readdirSync(managedPath)
   console.log('media folders', parentMediaPathNames)
-  drive.topLevelFolders = parentMediaPathNames
+  mediaObject.general.drive[driveName].topLevelFolders = parentMediaPathNames
   
   for (let i = 0; i < parentMediaPathNames.length; i++) {
     const parentMediaPathName = parentMediaPathNames[i]
@@ -156,6 +181,7 @@ async function parseMediaData(args) {
       let bytes = 0
       let files = 0
       let folders = 0
+      let folderNames = []
       console.log(`parsing '${mediaName}' for type '${parentMediaPathName}'`)
       const mediaPath = path.join(parentMediaPath, mediaName)
       console.log('mediaPath', mediaPath)
@@ -173,16 +199,43 @@ async function parseMediaData(args) {
         }
         if (stats.mode === 16822) { // folder
           folders+=1
+          folderNames.push(objectName)
         }
       }
-      drive.space.files+=files
-      drive.space.folders+=folders
-      drive.space.used+=bytes
-      
-      console.log(`results for ${mediaPath}:\nfiles: ${drive.space.files}\nfolders: ${drive.space.folders}\nbytes: ${convertBytesToHumanReadable(drive.space.used)}`)
-      process.exit()
+      // all data parsed for this blob, so organize
+      // update general(sum of everything)
+      mediaObject.general.drive[driveName].space.files+=files
+      mediaObject.general.drive[driveName].space.folders+=folders
+      mediaObject.general.drive[driveName].space.used+=bytes
+      // update drive
+      if (!mediaObject.drive[driveName].media[parentMediaPathName])
+        mediaObject.drive[driveName].media[parentMediaPathName] = []
+      mediaObject.drive[driveName].media[parentMediaPathName].push({
+        name: mediaName,
+        folderNames,
+        drive: {
+          name: driveName,
+          size: convertBytesToHumanReadable(bytes), files, folders,
+        },
+      })
+      // update media
+      if (!mediaObject.media[parentMediaPathName])
+        mediaObject.media[parentMediaPathName] = []
+      const existing = mediaObject.media[parentMediaPathName].find(x => x.name === mediaName)
+      if (existing) {
+        // update the drive property(whether it exists or not)
+        existing.drive[driveName] = { size: convertBytesToHumanReadable(bytes), files, folders, folderNames }
+      } else {
+        // create new record
+        mediaObject.media[parentMediaPathName].push({
+          name: mediaName,
+          drive: {
+            [driveName]: { size: convertBytesToHumanReadable(bytes), files, folders, folderNames }
+          }
+        })
+      }
+      console.log(`results for ${mediaPath}:\nfiles: ${files}\nfolders: ${folders}\nbytes: ${convertBytesToHumanReadable(bytes)}`)
     }
-    process.exit()
   }
 }
 
